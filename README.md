@@ -15,7 +15,9 @@
 - [Networking & P2P](/3-Networking.md)
 - [Accounts & Transaction](/4-Accounts-Transaction.md)
 - [Block Structure](/5-BlockStructures.md)
-- [Data Structure & Encoding](/6-DataStructures-And-Encoding.md)
+- [Data Structure & Encoding - Patricia Trie](/6.1-DataStructures-Patricia-Trie.md)
+- [Data Structure & Encoding - Merkle Tree](/6.2-DataStructures-Merkle-Tree.md)
+- [Data Structure & Encoding - Merkle Patricia Tries](/6.3-DataStructures-Merkle-Patricia-Tries.md)
 - [Go-ethereum analysis](/99-geth-analysic.md)
 
 <div class="image-container" align="center">
