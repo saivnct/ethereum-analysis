@@ -10,7 +10,7 @@
 
 # **Table of contents**
 
-- [Base architecture concepts)](/1-Theory.md)
+- [Base architecture concepts](/1-Theory.md)
 - [Consensus mechanism](/2-Consensus-mechanism.md)
 - [Networking & P2P](/3-Networking.md)
 - [Accounts & Transaction](/4-Accounts-Transaction.md)
