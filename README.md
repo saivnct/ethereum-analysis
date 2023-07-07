@@ -18,5 +18,6 @@
 - [Data Structure & Encoding - Patricia Trie](/6.1-DataStructures-Patricia-Trie.md)
 - [Data Structure & Encoding - Merkle Tree](/6.2-DataStructures-Merkle-Tree.md)
 - [Data Structure & Encoding - Recursive Length Prefix (RLP) Encoding/Decoding](/6.3-DataStructures-RLP.md)
-- [Data Structure & Encoding - Merkle Patricia Tries](/6.4-DataStructures-Merkle-Patricia-Tries.md)
-- [Go-ethereum analysis](/99-geth-analysic.md)
+- [Data Structure & Encoding - Compact encoding or Hex-prefix (HP)](/6.4-DataStructures-HP.md)
+- [Data Structure & Encoding - Merkle Patricia Tries](/6.5-DataStructures-Merkle-Patricia-Tries.md)
+- [Go-ethereum code analysis](/99-geth-analysic.md)
