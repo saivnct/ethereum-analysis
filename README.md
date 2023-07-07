@@ -17,9 +17,6 @@
 - [Block Structure](/5-BlockStructures.md)
 - [Data Structure & Encoding - Patricia Trie](/6.1-DataStructures-Patricia-Trie.md)
 - [Data Structure & Encoding - Merkle Tree](/6.2-DataStructures-Merkle-Tree.md)
-- [Data Structure & Encoding - Merkle Patricia Tries](/6.3-DataStructures-Merkle-Patricia-Tries.md)
+- [Data Structure & Encoding - Recursive Length Prefix (RLP) Encoding/Decoding](/6.3-DataStructures-RLP.md)
+- [Data Structure & Encoding - Merkle Patricia Tries](/6.4-DataStructures-Merkle-Patricia-Tries.md)
 - [Go-ethereum analysis](/99-geth-analysic.md)
-
-<div class="image-container" align="center">
-  <img src="img/eth-block-arch-3-2003.png" alt="Image 1">
-</div>
