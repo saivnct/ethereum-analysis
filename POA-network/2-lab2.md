@@ -126,6 +126,9 @@
   > <br> -> enter password/Repeat password to store for account in clef
   > <br> -> confirm by enter password master seed of clef (password when we init clef for node1)
 
+  - **NOTE**:
+    - When clef promt this "Please enter a password to store for this address:" => must input password that used to create account
+
   <div class="image-container" align="center">
   <img src="img/clef-1.png" alt="Image 1"  >
   </div>
