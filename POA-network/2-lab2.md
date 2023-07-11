@@ -1,6 +1,6 @@
 # **Running a Proof of authority network**
 
-## **Lab 1 - accounts management with Clef**
+## **Lab 2 - Accounts management with Clef**
 
 - Clique is a proof-of-authority system where new blocks can be created by authorized ‘signers’ only. The initial set of authorized signers is configured in the genesis block. Signers can be authorized and de-authorized using a voting mechanism, thus allowing the set of signers to change while the blockchain operates
 

@@ -23,3 +23,6 @@
 11. [Data Structure & Encoding - Merkle Patricia Tries](/6.6-DataStructures-Merkle-Patricia-Tries.md)
 12. [Data Structure & Encoding - Merkle Patricia Tries In Ethereum](/6.7-DataStructures-Ethererum-Tries.md)
 13. [Go-ethereum code analysis](/99-geth-analysic.md)
+14. [Running a Proof of authority network - Lab 1 - Basic nodes](/POA-network/1-lab1.md)
+15. [Running a Proof of authority network - Lab 2 - Accounts management with Clef](/POA-network/2-lab2.md)
+16. [Running a Proof of authority network - Lab 3 - Multiple validators](/POA-network/3-lab3.md)

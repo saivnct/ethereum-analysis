@@ -1,6 +1,6 @@
 # **Running a Proof of authority network**
 
-## **Lab 1 - multiple validators**
+## **Lab 3 - Multiple validators**
 
 - I, this lab we're going to run:
   - 1 bootnode
