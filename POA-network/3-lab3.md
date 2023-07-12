@@ -164,40 +164,40 @@
   >
   > clef --keystore node4/keystore --configdir node4/clef --chainid 1234511118889 --suppress-bootwarn --rules rules.js
 
-**9. Running a bootnode**
+**9. Running the bootstrap node**
 
-- Create bootnode key => This key can then be used to generate a bootnode.
-  > bootnode -genkey bootnode/boot.key
-- Start bootnode, open new terminal:
+- The bootstrap node is a normal node that is designated to be the entry point that other nodes use to join the network. Any node can be chosen to be the bootstrap node
+- To configure a bootstrap node, the IP address of the machine the bootstrap node will run on must be known.
+- The bootsrap node needs to know its own IP address so that it can broadcast it to other nodes.
+- On a local machine this can be found using tools such as **ifconfig** and on cloud instances such as Amazon EC2 the IP address of the virtual machine can be found in the management console
+- Any firewalls must allow UDP and TCP traffic on port 30303.
+- The bootstrap node IP is set using the --nat flag
+- Running a local bootstrap node:
 
-  > bootnode -nodekey bootnode/boot.key -verbosity 9 -addr :36326
+  > mkdir node5
   >
-  > => _enode://85301efe374e91e61276ffcdb54dd8e7ec1c86c3179445dcd775b51193c7e908d5265f2f13e80bc9a04e23b927b10d4ca26cf74d6fdd66e0c97333e31e1d39d3@127.0.0.1:0?discport=36321_
+  > geth --datadir node5 --networkid 1234511118889 --nat extip:127.0.0.1
+  >
+  > **The 'node record' of the bootnode can be extracted using the JS console:**
+  >
+  > geth attach --exec admin.nodeInfo.enr node5/geth.ipc
+  >
+  > _"enr:-KO4QAicjwLdnYH8ihFrU5tdxbU8ZY1WBwb1DKTVbGZtq_GKOhwYz1JXq2azsI5Bd1oQin61wj9vqKNLEpgie9SbalKGAYlEnAupg2V0aMfGhBGoWaiAgmlkgnY0gmlwhH8AAAGJc2VjcDI1NmsxoQPrQWRkf7S2WFv76Z-OUcmS_G-gg9VpdGqkK_C2ff2LyIRzbmFwwIN0Y3CCdl-DdWRwgnZf"_
+  >
+  > => Other nodes will use the information contained in the bootstrap node record to connect to the peer-to-peer network.
+
+- **NOTE**:
+  - If the nodes are intended to connect across the Internet, the bootnode and all other nodes must have public IP addresses assigned, and both TCP and UDP traffic can pass their firewalls.
+  - If Internet connectivity is not required or all member nodes connect using well-known IPs, Geth should be set up to restrict peer-to-peer connectivity to an IP subnet. Doing so will further isolate the network and prevents cross-connecting with other blockchain networks in case the nodes are reachable from the Internet. Use the --netrestrict flag to configure a whitelist of IP networks:
+    > geth <other-flags> --netrestrict 172.16.254.0/24
+    >
+    > => With the above setting, Geth will only allow connections from the 172.16.254.0/24 subnet, and will not attempt to connect to other nodes outside of the set IP range.
 
 **10. Start eth nodes**
 
-geth --datadir node1 --syncmode 'full' --port 30306 --authrpc.port 8551 --networkid 1234511118889 --signer node1/clef/clef.ipc --miner.etherbase 0xD7A2D2b7A282637b381D9475bA4082E70b53a3C0 --mine
-
-geth --datadir node2 --syncmode 'full' --port 30306 --authrpc.port 8551 --networkid 1234511118889 --signer node2/clef/clef.ipc --miner.etherbase 0x76b7e18a77e993C6aC578c4e544D7EB3E8A887f4 --mine
-
-geth --datadir node3 --syncmode 'full' --port 30306 --authrpc.port 8551 --networkid 1234511118889 --signer node3/clef/clef.ipc --miner.etherbase 0x3C9D42F2b9980aFFA8ea247304A13dA92d1D7557 --mine
-
-- Open 2 terminals
 - Run node 1 as miner:
 
-  > geth --datadir node1 account new
-  > <br>=> 0xD7A2D2b7A282637b381D9475bA4082E70b53a3C0
-  >
-  > geth --datadir node2 account new
-  > <br>=> 0x76b7e18a77e993C6aC578c4e544D7EB3E8A887f4
-  >
-  > geth --datadir node3 account new
-  > <br>=> 0x3C9D42F2b9980aFFA8ea247304A13dA92d1D7557
-  >
-  > geth --datadir node4 account new
-  > <br>=> 0x818b260B067B918e690Cc347bF33B46CF75E9108
-
-  > geth --datadir node1 --syncmode 'full' --port 30306 --authrpc.port 8551 --bootnodes "enode://a4d79a0827a9dc11d135e37005703fb22534d0dea312f787fffae37fdf44378b9be69836f3ab0484235ec87fb289a83de1fb2046c9ad3a73ac26bc900d93815b@127.0.0.1:0?discport=36326" --networkid 1234511118889 --signer node1/clef/clef.ipc --miner.etherbase 0xD7A2D2b7A282637b381D9475bA4082E70b53a3C0 --mine
+  > geth --datadir node1 --syncmode 'full' --port 30306 --authrpc.port 8552 --bootnodes "enr:-KO4QC4evjPtkCHXkIYkvGpNWeABtUUUG9DY50ByqKpLxoWiKX3WO4khwEaG2bxm42iBUg2LNN4jKqrb2beA8Q2RpcaGAYlEnAuog2V0aMfGhBGoWaiAgmlkgnY0gmlwhH8AAAGJc2VjcDI1NmsxoQPrQWRkf7S2WFv76Z-OUcmS_G-gg9VpdGqkK_C2ff2LyIRzbmFwwIN0Y3CCdl-DdWRwgnZf" --networkid 1234511118889 --signer node1/clef/clef.ipc --miner.etherbase 0xD7A2D2b7A282637b381D9475bA4082E70b53a3C0 --mine
   >
   > => Node 1 Run, succesfully mined 2nd block (1st block is genesis), but cannot mine 3rd block => (in genesis block, we setup 3 nodes validator, SIGNER_LIMIT = floor(SIGNER_COUNT / 2) + 1) => **SIGNER_LIMIT**: Number of consecutive blocks out of which a signer may only sign one
 
@@ -207,7 +207,7 @@ geth --datadir node3 --syncmode 'full' --port 30306 --authrpc.port 8551 --networ
 
 - Run node 2:
 
-  > geth --datadir node2 --syncmode 'full' --port 30307 --authrpc.port 8552 --bootnodes "enode://a4d79a0827a9dc11d135e37005703fb22534d0dea312f787fffae37fdf44378b9be69836f3ab0484235ec87fb289a83de1fb2046c9ad3a73ac26bc900d93815b@127.0.0.1:0?discport=36326" --networkid 1234511118889 --signer node2/clef/clef.ipc --miner.etherbase 0x76b7e18a77e993C6aC578c4e544D7EB3E8A887f4 --mine
+  > geth --datadir node2 --syncmode 'full' --port 30307 --authrpc.port 8553 --bootnodes "enr:-KO4QC4evjPtkCHXkIYkvGpNWeABtUUUG9DY50ByqKpLxoWiKX3WO4khwEaG2bxm42iBUg2LNN4jKqrb2beA8Q2RpcaGAYlEnAuog2V0aMfGhBGoWaiAgmlkgnY0gmlwhH8AAAGJc2VjcDI1NmsxoQPrQWRkf7S2WFv76Z-OUcmS_G-gg9VpdGqkK_C2ff2LyIRzbmFwwIN0Y3CCdl-DdWRwgnZf" --networkid 1234511118889 --signer node2/clef/clef.ipc --miner.etherbase 0x76b7e18a77e993C6aC578c4e544D7EB3E8A887f4 --mine
   >
   > => Node 2 Run, succesfully mined 3rd block => Node 1 & Node 2 can now consecutive mine block ( **SIGNER_LIMIT = 2**)
 
@@ -217,7 +217,7 @@ geth --datadir node3 --syncmode 'full' --port 30306 --authrpc.port 8551 --networ
 
 - Run node 3:
 
-  > geth --datadir node3 --syncmode 'full' --port 30308 --authrpc.port 8553 --bootnodes "enode://a4d79a0827a9dc11d135e37005703fb22534d0dea312f787fffae37fdf44378b9be69836f3ab0484235ec87fb289a83de1fb2046c9ad3a73ac26bc900d93815b@127.0.0.1:0?discport=36326" --networkid 1234511118889 --signer node3/clef/clef.ipc --miner.etherbase 0x3C9D42F2b9980aFFA8ea247304A13dA92d1D7557 --mine
+  > geth --datadir node3 --syncmode 'full' --port 30308 --authrpc.port 8554 --bootnodes "enr:-KO4QC4evjPtkCHXkIYkvGpNWeABtUUUG9DY50ByqKpLxoWiKX3WO4khwEaG2bxm42iBUg2LNN4jKqrb2beA8Q2RpcaGAYlEnAuog2V0aMfGhBGoWaiAgmlkgnY0gmlwhH8AAAGJc2VjcDI1NmsxoQPrQWRkf7S2WFv76Z-OUcmS_G-gg9VpdGqkK_C2ff2LyIRzbmFwwIN0Y3CCdl-DdWRwgnZf" --networkid 1234511118889 --signer node3/clef/clef.ipc --miner.etherbase 0x3C9D42F2b9980aFFA8ea247304A13dA92d1D7557 --mine
   >
   > => Node 3 Run, succesfully sync blocks => Node 1 & Node 2 & Node 3 can now consecutive mine block ( **SIGNER_LIMIT = 2**)
 
@@ -226,7 +226,7 @@ geth --datadir node3 --syncmode 'full' --port 30306 --authrpc.port 8551 --networ
   </div>
 
 - Stop node 3 for a while, and then restart it with --bootnodes is enode of node 1:
-  > geth --datadir node3 --syncmode 'full' --port 30308 --authrpc.port 8553 --bootnodes "enode://22b4e060de13f06f0ba4ebd007fb81208705571f6cb24e793a0f194ffda119825cd29c671ed9afc551a4f4c134d80f1e29fc0f9ab28f9c34e38bcc5d7b3359e0@127.0.0.1:30306" --networkid 1234511118889 --signer node3/clef/clef.ipc --miner.etherbase 0x3C9D42F2b9980aFFA8ea247304A13dA92d1D7557 --mine
+  > geth --datadir node3 --syncmode 'full' --port 30308 --authrpc.port 8554 --bootnodes "enr:-KO4QC4evjPtkCHXkIYkvGpNWeABtUUUG9DY50ByqKpLxoWiKX3WO4khwEaG2bxm42iBUg2LNN4jKqrb2beA8Q2RpcaGAYlEnAuog2V0aMfGhBGoWaiAgmlkgnY0gmlwhH8AAAGJc2VjcDI1NmsxoQPrQWRkf7S2WFv76Z-OUcmS_G-gg9VpdGqkK_C2ff2LyIRzbmFwwIN0Y3CCdl-DdWRwgnZf" --networkid 1234511118889 --signer node3/clef/clef.ipc --miner.etherbase 0x3C9D42F2b9980aFFA8ea247304A13dA92d1D7557 --mine
   >
   > => Node 3 re-Run, succesfully sync blocks => Node 1 & Node 2 & Node 3 can now consecutive mine block ( **SIGNER_LIMIT = 2**)
 
@@ -234,13 +234,16 @@ geth --datadir node3 --syncmode 'full' --port 30306 --authrpc.port 8551 --networ
 
 - Run node 4 with --bootnodes is enode of node 1, run node 4 as a miner, also enable RPC :
 
-  > geth --datadir node4 --syncmode 'full' --port 30309 --authrpc.port 8554 --http --http.addr 'localhost' --http.port 3334 --http.api 'eth,net,web3' --bootnodes "enode://22b4e060de13f06f0ba4ebd007fb81208705571f6cb24e793a0f194ffda119825cd29c671ed9afc551a4f4c134d80f1e29fc0f9ab28f9c34e38bcc5d7b3359e0@127.0.0.1:30306" --networkid 1234511118889 --signer node4/clef/clef.ipc --miner.etherbase 0x818b260B067B918e690Cc347bF33B46CF75E9108 --mine
+  > geth --datadir node4 --syncmode 'full' --port 30309 --authrpc.port 8555 --http --http.addr 'localhost' --http.port 3334 --http.api 'eth,net,web3' --bootnodes "enr:-KO4QC4evjPtkCHXkIYkvGpNWeABtUUUG9DY50ByqKpLxoWiKX3WO4khwEaG2bxm42iBUg2LNN4jKqrb2beA8Q2RpcaGAYlEnAuog2V0aMfGhBGoWaiAgmlkgnY0gmlwhH8AAAGJc2VjcDI1NmsxoQPrQWRkf7S2WFv76Z-OUcmS_G-gg9VpdGqkK_C2ff2LyIRzbmFwwIN0Y3CCdl-DdWRwgnZf" --networkid 1234511118889 --signer node4/clef/clef.ipc --miner.etherbase 0x818b260B067B918e690Cc347bF33B46CF75E9108 --mine --pprof
   >
   > => Node 4 Run, sync blocks => Node 4 try to mine block but get warning _err="unauthorized signer"_ because it's not validator
 
   <div class="image-container" align="center">
   <img src="img/lab3-4.png" alt="Image 1"  >
   </div>
+
+  - **NOTE:**
+    - If Geth is started with the --pprof option, a debugging HTTP server is made available on port 6060. Navigating to http://localhost:6060/debug/pprof displays the heap, running routines etc. By clicking "full goroutine stack dump" a trace can be generated that is useful for debugging.
 
 - To propose a new signer, existing validators can propose it via **clique.propose("0x...", true)**. When more than half the validators proposed it, the authorization comes into effect immediately and the new account can start signing blocks.
 
@@ -304,6 +307,8 @@ geth --datadir node3 --syncmode 'full' --port 30306 --authrpc.port 8551 --networ
 
 - IPC gives access without restriction to all modules listed in the terminal : admin:1.0 clique:1.0 debug:1.0 engine:1.0 eth:1.0 miner:1.0 net:1.0 rpc:1.0 txpool:1.0 web3:1.0
 
+  > eth.syncing
+  >
   > net.peerCount
   >
   > admin.peers
@@ -321,6 +326,24 @@ geth --datadir node3 --syncmode 'full' --port 30306 --authrpc.port 8551 --networ
   > from: eth.accounts[0],
   > value: web3.toWei(100, 'ether')
   > });
+
+  > clique.getSnapshot()
+  >
+  > clique.getSigners()
+  >
+  > clique.status()
+  >
+  > eth.getHeaderByNumber(10)
+  >
+  > net.listening
+  >
+  > net.peerCount
+  >
+  > net.version
+  >
+  > txpool.content
+  >
+  > txpool.status
 
 **13. Testing Through JSON-RPC HTTP**
 
