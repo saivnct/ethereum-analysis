@@ -1,0 +1,14 @@
+1. app entry point: 
+    cmd/geth/main.go -> init() -> main()
+        -   int app instance
+
+2. init consensus engine
+	ehtconfig/config.go -> CreateConsensusEngine()
+	    => return beacon.New(clique.New(config.Clique, db)), nil        
+
+3. block creation
+    miner/worker.go
+        mainloop -> commitWork() (create block) -> notify to taskLoop 
+        taskLoop -> consensus engine SEAL
+
+

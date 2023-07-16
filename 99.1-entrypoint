@@ -1,3 +1,0 @@
-cmd/geth/main.go -> main() -> init() 
-    -   app instance: 
-        var app = flags.NewApp("the go-ethereum command line interface")
